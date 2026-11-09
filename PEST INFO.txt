@@ -1,0 +1,125 @@
+🌱 PestAlert.tsx – Description
+This component is a frontend module for pest monitoring and alert management.
+
+🔹 What it does:
+Allows farmers to enable pest monitoring
+Lets them select crop + enter location
+Displays real-time pest alerts from backend
+Includes an AI chatbot (text + image) for pest diagnosis
+
+🔹 Key Features:
+
+1. Pest Monitoring Setup
+User selects crop (Rice, Tomato, etc.)
+Enters location
+Clicks Enable Monitoring
+Sends data to backend via API
+
+👉 API used:
+POST /enable_pest_monitor
+
+2. Fetching Alerts
+On page load (useEffect)
+Calls backend to get alerts
+
+👉 API used:
+GET /get_pest_alerts/{user_id}
+
+Displays:
+Crop
+Pest
+Location
+Alert message
+Time
+
+3. AI Chatbot (Added Feature 🔥)
+
+Users can:
+Type query (e.g., “tomato disease”)
+Upload plant image
+Sends request to backend
+
+👉 API used:
+POST /pest_chat
+
+Displays:
+Crop name
+Pest
+Disease
+Pesticide
+Spray instructions
+Protection methods
+
+⚙️ pest_api.py – Description
+This is the Flask backend system for pest monitoring, prediction, and alerts automation.
+
+🔹 Core Functionalities:
+
+1️⃣ Pest Chatbot API
+/pest_chat
+What it does:
+
+Handles:
+Text queries
+Image uploads
+Sends mail to farmer
+
+Returns:
+Crop details
+Pest info
+Disease
+Pesticide
+Protection steps
+
+👉 Currently rule-based
+
+2️⃣ Enable Monitoring
+
+/enable_pest_monitor
+
+What it does:
+Stores farmer data in MySQL
+
+Fields:
+user_id
+crop
+location
+
+👉 Used for automation tracking
+
+3️⃣ Get Alerts
+/get_pest_alerts/<user_id>
+What it does:
+
+Fetches pest alerts from database
+Returns latest alerts
+
+4️⃣ Pest Prediction API
+
+/pest_predict
+What it does:
+
+Uses:
+crop
+temperature
+rainfall
+Applies rule-based logic to detect pest risk
+
+Example:
+Rice + high rain → Brown Plant Hopper
+Tomato + high temp → Leaf Miner
+
+👉 If risk found:
+Stores alert in DB
+Sends warning message
+
+5️⃣ Automation (Scheduler 🔥)
+BackgroundScheduler
+What it does:
+
+Runs every 1 minute
+Checks all farmers
+Randomly simulates pest risk
+Generates alerts automatically
+
+👉 This = RPA-like automation
